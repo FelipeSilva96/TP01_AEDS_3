@@ -304,7 +304,7 @@ public class MenuEpisodios {
             System.out.print("\nNome..............: " + episodio.nome);
             System.out.print("\nTemporada.........: " + episodio.temporada);
             System.out.print("\nData de Lançamento: " + episodio.dataLancamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            System.out.println("\nDuração...........: " + episodio.duracao);
+            System.out.println("\nDuracao...........: " + episodio.duracao);
             System.out.println();
             System.out.println("----------------------");
 

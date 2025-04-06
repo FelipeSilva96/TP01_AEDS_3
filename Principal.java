@@ -14,13 +14,13 @@ public class Principal {
 
                 System.out.println("\n\nAEDsIII");
                 System.out.println("-------");
-                System.out.println("> Início");
-                System.out.println("\n1) Séries");
-                System.out.println("2) Episódios");
+                System.out.println("> Inicio");
+                System.out.println("\n1) Series");
+                System.out.println("2) Episodios");
                 System.out.println("3) Atores"); // ignorar por enquanto
                 System.out.println("4) Sair");
 
-                System.out.print("\nOpção: ");
+                System.out.print("\nOpcao: ");
                 try {
                     opcao = Integer.valueOf(scan.nextLine());
                 } catch (NumberFormatException e) {
@@ -40,7 +40,7 @@ public class Principal {
                     case 4:
                         break;
                     default:
-                        System.out.println("Opção inválida!");
+                        System.out.println("Opcao invalida!");
                         break;
                 }
 
