@@ -76,29 +76,48 @@ public class ArquivoEpisodio extends Arquivo<Episodio> {
 
     public boolean delete(String nome, int IDSerie) throws Exception {
         ParNomeEpisodioID pni = indiceIndiretoNomeEpisodio.read(ParNomeEpisodioID.hash(nome));
-        ParIDSerieIDEpisodio pse = new ParIDSerieIDEpisodio(IDSerie, pni.getId());
-        if (pni != null) {
-            if (delete(pni.getId())) {
-                return indiceIndiretoNomeEpisodio.delete(ParNomeEpisodioID.hash(nome))
-                        && indiceIndiretoIDSerieIDEpisodio.delete(pse);
-            }
+        if (pni == null) {
+            return false;
         }
-        return false;
+        int epID = pni.getId();
+        if (!super.delete(epID)) {
+            return false;
+        }
+        boolean ok1 = indiceIndiretoNomeEpisodio.delete(ParNomeEpisodioID.hash(nome));
+        boolean ok2 = indiceIndiretoIDSerieIDEpisodio.delete(
+                new ParIDSerieIDEpisodio(IDSerie, epID)
+        );
+        return ok1 && ok2;
     }
 
-    public boolean update(Episodio novoEpisodio, String antiga) throws Exception {
-        Episodio episodioAntigo = readNome(antiga);
-        if (super.update(novoEpisodio)) {
-            if (novoEpisodio.getNome().compareTo(episodioAntigo.getNome()) != 0) {
-                indiceIndiretoNomeEpisodio.delete(ParNomeEpisodioID.hash(episodioAntigo.getNome()));
-                indiceIndiretoNomeEpisodio.create(new ParNomeEpisodioID(novoEpisodio.getNome(), novoEpisodio.getID()));
-            }
-            if (novoEpisodio.getID() != episodioAntigo.getID()) {
-                indiceIndiretoIDSerieIDEpisodio.delete(new ParIDSerieIDEpisodio(episodioAntigo.idSerie, episodioAntigo.getID()));
-                indiceIndiretoIDSerieIDEpisodio.create(new ParIDSerieIDEpisodio(novoEpisodio.idSerie, novoEpisodio.id));
-            }
-            return true;
+    public boolean update(Episodio novoEpisodio, String nomeAntigo) throws Exception {
+        Episodio episodioAntigo = readNome(nomeAntigo);
+        if (episodioAntigo == null) {
+            return false; // não há o que atualizar
         }
-        return false;
+
+        boolean atualizado = super.update(novoEpisodio);
+        if (!atualizado) {
+            return false;
+        }
+
+        if (!novoEpisodio.getNome().equals(nomeAntigo)) {
+            indiceIndiretoNomeEpisodio.delete(ParNomeEpisodioID.hash(nomeAntigo));
+            indiceIndiretoNomeEpisodio.create(
+                    new ParNomeEpisodioID(novoEpisodio.getNome(), novoEpisodio.getID())
+            );
+        }
+
+        if (novoEpisodio.getIdSerie() != episodioAntigo.getIdSerie()) {
+            indiceIndiretoIDSerieIDEpisodio.delete(
+                    new ParIDSerieIDEpisodio(episodioAntigo.getIdSerie(), episodioAntigo.getID())
+            );
+            indiceIndiretoIDSerieIDEpisodio.create(
+                    new ParIDSerieIDEpisodio(novoEpisodio.getIdSerie(), novoEpisodio.getID())
+            );
+        }
+
+        return true;
     }
+
 }

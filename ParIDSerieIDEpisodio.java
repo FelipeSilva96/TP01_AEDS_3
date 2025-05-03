@@ -48,19 +48,16 @@ public class ParIDSerieIDEpisodio implements RegistroArvoreBMais<ParIDSerieIDEpi
         return "(" + this.IDSerie + ";" + this.IDEpisodio + ")";
     }
 
+    @Override
     public int compareTo(ParIDSerieIDEpisodio a) {
-        int id1 = this.IDSerie;
-        int id2 = a.IDSerie;
-
-        if (id1 == id2) {
-            if (this.IDEpisodio == -1) {
-                return 0;
-            } else {
-                return this.IDEpisodio - a.IDEpisodio;
-            }
-        } else {
-            return id1 - id2;
+        if (this.IDSerie != a.IDSerie) {
+            return this.IDSerie - a.IDSerie;
         }
+        if (this.IDEpisodio == -1 || a.IDEpisodio == -1) {
+            return 0;
+        }
+        
+        return this.IDEpisodio - a.IDEpisodio;
     }
 
     public byte[] toByteArray() throws IOException {

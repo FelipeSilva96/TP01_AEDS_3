@@ -67,6 +67,10 @@ public class Episodio implements EntidadeArquivo {
     public String getNome() {
         return this.nome;
     }
+    public int getIdSerie() {
+    return this.idSerie;
+}
+
 
     public String toString() {
         return "\nID...................: " + this.id

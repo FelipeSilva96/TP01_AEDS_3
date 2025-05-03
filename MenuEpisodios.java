@@ -103,7 +103,7 @@ public class MenuEpisodios {
         }
 
         do {
-            System.out.print("\nNome (min. de 2 letras ou vazio para cancelar): ");
+            System.out.print("\nNome do episodio (min. de 2 letras ou vazio para cancelar): ");
             nome = scan.nextLine();
             if (nome.length() == 0) {
                 return;
