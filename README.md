@@ -88,6 +88,8 @@ O trabalho é original e não a cópia de um trabalho de outro grupo? Sim
 Obs: Se necessário, compilar com:
 
 javac -encoding UTF-8 Principal.java
+ou 
+javac -d . -encoding UTF-8 aed3/*.java *.java
 
 java Principal
 
